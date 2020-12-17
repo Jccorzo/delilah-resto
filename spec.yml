@@ -1,0 +1,386 @@
+openapi: "3.0.0"
+info:
+  description: ""
+  title: "Delilah Restó"
+  version: "1.0.0"
+servers: 
+  - url: "http://localhost:3000"
+paths:
+  /user/signup: 
+      post:
+        summary: "Create user"
+        requestBody: 
+          content: 
+            application/json:
+              schema:
+                type: "object"
+                properties: 
+                  username:
+                    type: "string"
+                  name:
+                    type: "string"
+                  email:
+                    type: "string"
+                  phone: 
+                    type: "string"
+                  address: 
+                    type: "string"
+                  password:
+                    type: "string"
+        responses:
+          "201":
+            description: "User created"
+            content:
+              application/json:
+                schema:
+                  type: "object"
+                  properties:
+                    token:
+                      type: "string"
+                    message: 
+                      type: "string"
+                    user:
+                      type: "object"
+                      properties: 
+                        username:
+                          type: "string"
+                        name:
+                          type: "string"
+                        email:
+                          type: "string"
+                        phone: 
+                          type: "string"
+                        address: 
+                          type: "string"
+          "400":
+            description: "User exist"
+            content:
+              application/json:
+                schema:
+                  type: "object"
+                  properties:
+                    token: 
+                      type: "string"
+                    message:
+                      type: "string"
+          "default":
+            description: "Default error, some error happened"
+            content:
+              application/json:
+                schema:
+                  type: "object"
+                  properties:
+                    token: 
+                      type: "string"
+                    message:
+                      type: "string"
+  /user/login:
+    post: 
+      summary: "Login user"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties: 
+                username: 
+                  type: "string"
+                password:
+                  type: "string"
+      responses: 
+        "200":
+          description: "Login Succeed"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  token:
+                    type: "string"
+                  message:
+                    type: "string"
+                  user:
+                    type: "object"
+                    properties: 
+                      username:
+                        type: "string"
+                      name:
+                        type: "string"
+                      email:
+                        type: "string"
+                      phone: 
+                        type: "string"
+                      address: 
+                        type: "string"
+        "400":
+          description: "username or password incorrect"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  token:
+                    type: "string"
+                  message:
+                    type: "string"
+        "default":
+            description: "Default error, some error happened"
+            content:
+              application/json:
+                schema:
+                  type: "object"
+                  properties:
+                    token: 
+                      type: "string"
+                    message:
+                      type: "string"
+  /product:
+    get:
+      summary: "get all products"
+      responses:
+        "200":
+          description: "all products"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties: 
+                  data:
+                    type: "array"
+                    items: 
+                      type: "object"
+    post:
+      summary: "Create Product"
+      requestBody: 
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                name: 
+                  type: "string"
+                price: 
+                  type: "number"
+                imageUrl:
+                  type: "string"
+      responses:
+        "201":
+          description: "product created"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  message: 
+                    type: "string"
+        "400":
+          description: "product alredy exist"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  message:
+                    type: "string"
+        "405":
+          description: "only admins can create products"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  message:
+                    type: "string"
+    put: 
+      summary: "update product"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                name:
+                  type: "string"
+                price:
+                  type: "number"
+      responses:
+        "200":
+          description: "updated product"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  message: 
+                    type: "string"
+        "405":
+          description: "only admins can update products"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  message:
+                    type: "string"
+        "default":
+          description: "Default error, some error happened"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  message:
+                    type: "string"
+  /product/{name}:
+    get:
+      summary: "get specific product"
+      parameters:
+        - name: name
+          in: path
+          description: ID of pet to fetch
+          required: true
+          schema:
+            type: "string"
+      responses:
+        "200":
+          description: "all products"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties: 
+                  name: 
+                    type: "string"
+                  price:
+                    type: "number"
+    delete:
+      summary: "delete specific product"
+      parameters:
+        - name: name
+          in: path
+          description: ID of pet to fetch
+          required: true
+          schema:
+            type: "string"
+      responses:
+        "200":
+          description: "all products"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties: 
+                  name: 
+                    type: "string"
+                  price:
+                    type: "number"
+  /order:
+    get:
+      summary: "get all orders"
+      responses:
+        "200":
+          description: "all orders"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  data: 
+                    type: "array"
+                    items:
+                      type: "object"
+    post:
+      summary: "Create Order"
+      requestBody: 
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                date: 
+                  type: "number"
+                products:
+                  type: "array"
+                  items:
+                    type: "object"
+      responses:
+        "201":
+          description: "order created"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  message: 
+                    type: "string"
+        "400":
+          description: "only logged users can create orders"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  message:
+                    type: "string"
+    put: 
+      summary: "update order"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                id:
+                  type: "string"
+                state:
+                  type: "string"
+      responses:
+        "200":
+          description: "updated order"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  message: 
+                    type: "string"
+        "405":
+          description: "only admins can update orders"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  message:
+                    type: "string"
+        "default":
+          description: "Default error, some error happened"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  message:
+                    type: "string"
+  /order/{user}:
+    get:
+      summary: "get specific product"
+      parameters:
+        - name: user
+          in: path
+          description: ID of pet to fetch
+          required: true
+          schema:
+            type: "string"
+      responses:
+        "200":
+          description: "all products"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties: 
+                  name: 
+                    type: "string"
+                  price:
+                    type: "number"
