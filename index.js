@@ -1,10 +1,13 @@
 const express = require('express');
 const helmet = require('helmet');
 const bodyParser = require('body-parser');
+const expressJwt = require("express-jwt");
 const app = express();
 const userRoutes = require('./routes/user');
 const orderRoutes = require('./routes/order');
 const productRoutes = require('./routes/product');
+const sequelize = require('./database/conexion');
+
 
 app.use(helmet());
 app.use(bodyParser.urlencoded({ extended: false }));

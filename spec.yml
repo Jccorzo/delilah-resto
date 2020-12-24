@@ -15,17 +15,17 @@ paths:
               schema:
                 type: "object"
                 properties: 
-                  username:
+                  usuario:
                     type: "string"
-                  name:
+                  nombreCompleto:
                     type: "string"
-                  email:
+                  correo:
                     type: "string"
-                  phone: 
+                  telefono: 
                     type: "string"
-                  address: 
+                  direccion: 
                     type: "string"
-                  password:
+                  contrasena:
                     type: "string"
         responses:
           "201":
@@ -37,20 +37,20 @@ paths:
                   properties:
                     token:
                       type: "string"
-                    message: 
+                    mensaje: 
                       type: "string"
                     user:
                       type: "object"
                       properties: 
-                        username:
+                        usuario:
                           type: "string"
-                        name:
+                        nombreCompleto:
                           type: "string"
-                        email:
+                        correo:
                           type: "string"
-                        phone: 
+                        telefono: 
                           type: "string"
-                        address: 
+                        direccion: 
                           type: "string"
           "400":
             description: "User exist"
@@ -61,7 +61,7 @@ paths:
                   properties:
                     token: 
                       type: "string"
-                    message:
+                    mensaje:
                       type: "string"
           "default":
             description: "Default error, some error happened"
@@ -72,7 +72,7 @@ paths:
                   properties:
                     token: 
                       type: "string"
-                    message:
+                    mensaje:
                       type: "string"
   /user/login:
     post: 
@@ -83,9 +83,9 @@ paths:
             schema:
               type: "object"
               properties: 
-                username: 
+                usuario: 
                   type: "string"
-                password:
+                contrasena:
                   type: "string"
       responses: 
         "200":
@@ -97,20 +97,20 @@ paths:
                 properties:
                   token:
                     type: "string"
-                  message:
+                  mensaje:
                     type: "string"
-                  user:
+                  data:
                     type: "object"
                     properties: 
-                      username:
+                      usuario:
                         type: "string"
-                      name:
+                      nombreCompleto:
                         type: "string"
-                      email:
+                      correo:
                         type: "string"
-                      phone: 
+                      telefono: 
                         type: "string"
-                      address: 
+                      direccion: 
                         type: "string"
         "400":
           description: "username or password incorrect"
@@ -121,7 +121,7 @@ paths:
                 properties:
                   token:
                     type: "string"
-                  message:
+                  mensaje:
                     type: "string"
         "default":
             description: "Default error, some error happened"
@@ -132,7 +132,7 @@ paths:
                   properties:
                     token: 
                       type: "string"
-                    message:
+                    mensaje:
                       type: "string"
   /product:
     get:
@@ -157,11 +157,11 @@ paths:
             schema:
               type: "object"
               properties:
-                name: 
+                nombre: 
                   type: "string"
-                price: 
+                precio: 
                   type: "number"
-                imageUrl:
+                imagen:
                   type: "string"
       responses:
         "201":
@@ -171,7 +171,7 @@ paths:
               schema:
                 type: "object"
                 properties:
-                  message: 
+                  mensaje: 
                     type: "string"
         "400":
           description: "product alredy exist"
@@ -180,7 +180,7 @@ paths:
               schema:
                 type: "object"
                 properties:
-                  message:
+                  mensaje:
                     type: "string"
         "405":
           description: "only admins can create products"
@@ -189,7 +189,7 @@ paths:
               schema:
                 type: "object"
                 properties:
-                  message:
+                  mensaje:
                     type: "string"
     put: 
       summary: "update product"
@@ -199,10 +199,12 @@ paths:
             schema:
               type: "object"
               properties:
-                name:
+                nombre:
                   type: "string"
-                price:
+                precio:
                   type: "number"
+                imagen:
+                  type: "string"
       responses:
         "200":
           description: "updated product"
@@ -211,7 +213,7 @@ paths:
               schema:
                 type: "object"
                 properties:
-                  message: 
+                  mensaje: 
                     type: "string"
         "405":
           description: "only admins can update products"
@@ -220,7 +222,7 @@ paths:
               schema:
                 type: "object"
                 properties:
-                  message:
+                  mensaje:
                     type: "string"
         "default":
           description: "Default error, some error happened"
@@ -229,13 +231,13 @@ paths:
               schema:
                 type: "object"
                 properties:
-                  message:
+                  mensaje:
                     type: "string"
-  /product/{name}:
+  /product/{nombre}:
     get:
       summary: "get specific product"
       parameters:
-        - name: name
+        - name: nombre
           in: path
           description: ID of pet to fetch
           required: true
@@ -256,7 +258,7 @@ paths:
     delete:
       summary: "delete specific product"
       parameters:
-        - name: name
+        - name: nombre
           in: path
           description: ID of pet to fetch
           required: true
@@ -311,7 +313,7 @@ paths:
               schema:
                 type: "object"
                 properties:
-                  message: 
+                  mensaje: 
                     type: "string"
         "400":
           description: "only logged users can create orders"
@@ -320,7 +322,7 @@ paths:
               schema:
                 type: "object"
                 properties:
-                  message:
+                  mensaje:
                     type: "string"
     put: 
       summary: "update order"
@@ -342,7 +344,7 @@ paths:
               schema:
                 type: "object"
                 properties:
-                  message: 
+                  mensaje: 
                     type: "string"
         "405":
           description: "only admins can update orders"
@@ -351,7 +353,7 @@ paths:
               schema:
                 type: "object"
                 properties:
-                  message:
+                  mensaje:
                     type: "string"
         "default":
           description: "Default error, some error happened"
@@ -360,13 +362,13 @@ paths:
               schema:
                 type: "object"
                 properties:
-                  message:
+                  mensaje:
                     type: "string"
-  /order/{user}:
+  /order/{usuario}:
     get:
       summary: "get specific product"
       parameters:
-        - name: user
+        - name: usuario
           in: path
           description: ID of pet to fetch
           required: true

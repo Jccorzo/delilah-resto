@@ -1,15 +1,18 @@
 // Users
-module.exports.newUser = 'INSERT INTO users (username,pass, name, phone, email, address)';
-module.exports.updateUser = 'UPDATE users SET name = ?, phone = ?, email = ?, address = ? WHERE username_id = ?'
+module.exports.newUser = 'INSERT INTO Usuarios (usuario, nombre_completo, correo, telefono, direccion, contrasena, administrador) values (:usuario, :nombre_completo, :correo, :telefono, :direccion, :contrasena, false)';
+module.exports.user = 'Select * FROM Usuarios WHERE usuario = :usuario';
 
-// Deliveries
-module.exports.allDeliveries = 'SELECT * FROM deliveries';
-module.exports.deliveryById = 'SELECT * FROM deliveries where delivery_id = ?';
-module.exports.updateDelivery = 'UPDATE deliveries SET ¿¿¿¿¿¿¿ deliveries where delivery_id = ?';
-module.exports.deleteDelivery = 'DELETE FROM deliveries SET ¿¿¿¿¿¿¿ deliveries where delivery_id = ?';
+// orders
+module.exports.allDeliveries = 'SELECT * FROM Ordenes';
+module.exports.orderById = 'SELECT * FROM Ordenes where numero = :numero';
+module.exports.newOrder = 'INSERT INTO Ordenes (estado,hora,descripcion,pago,usuario) values (:estado,:hora,:descripcion,:pago,:usuario)';
+module.exports.newOrderProducts = 'INSERT INTO ProductosOrdenes (numero,id) values (:numero,:id)';
+module.exports.updateOrder = 'UPDATE Ordenes SET estado = :estado WHERE numero = :numero';
+module.exports.deleteOrder = 'DELETE FROM Ordenes SET ¿¿¿¿¿¿¿ deliveries where delivery_id = ?';
 
 // Products
-module.exports.allProducts = 'SELECT * FROM products';
-module.exports.newProduct = 'INSERT INTO products (name, price)';
-module.exports.updateProduct = 'UPDATE products SET name = ?, price = ? WHERE product_id = ?'
-module.exports.deleteProduct = 'DELETE FROM products WHERE product_id = ?'
+module.exports.allProducts = 'SELECT * FROM Productos';
+module.exports.productById = 'SELECT * FROM Productos WHERE id = :id';
+module.exports.newProduct = 'INSERT INTO Productos (nombre, precio, imagen) values (:nombre, :precio, :imagen)';
+module.exports.updateProduct = 'UPDATE Productos SET nombre = :nombre, precio = :precio, imagen = :imagen WHERE id = :id';
+module.exports.deleteProduct = 'DELETE FROM Productos WHERE id = :id';
