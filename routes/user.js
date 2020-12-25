@@ -4,13 +4,24 @@ const {
 } = require('../services/user');
 
 module.exports = (app) => {
-    app.post('/signup', (req, res) => {
+    app.post('/signUp', async (req, res) => {
         const user = req.body
-        res.json(createUser(user))
+        try {
+            const response = await createUser(user)
+            res.json(response)
+        } catch (e) {
+            res.status(400).json({ token: '', mensaje: e.message })
+        }
     })
 
-    app.post('/login', (req, res) => {
+    app.post('/login', async (req, res) => {
         const user = req.body;
-        res.json(getUser(user))
+        try {
+            const reponse = await getUser(user)
+            res.json(reponse)
+        } catch (e) {
+            res.status(400).json({ mensaje: e })
+        }
+
     })
 }

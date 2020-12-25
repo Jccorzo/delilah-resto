@@ -6,7 +6,7 @@ info:
 servers: 
   - url: "http://localhost:3000"
 paths:
-  /user/signup: 
+  /user/signUp: 
       post:
         summary: "Create user"
         requestBody: 

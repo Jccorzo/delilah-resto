@@ -1,7 +1,8 @@
 const sequelize = require('./conexion')
 
-module.exports.get = async (query) => {
+module.exports.get = async (query, replacements) => {
     const response = await sequelize.query(query, {
+        replacements,
         type: sequelize.QueryTypes.SELECT
     });
     return response

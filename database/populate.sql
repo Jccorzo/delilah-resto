@@ -5,10 +5,10 @@ create table if not exists Usuarios (
 	usuario VARCHAR(50) NOT NULL unique,
     nombre_completo VARCHAR(50) NOT NULL,
     correo VARCHAR(50),
-    telefono int NOT NULL,
+    telefono BIGINT NOT NULL,
 	direccion VARCHAR(50) NOT NULL,
     contrasena VARCHAR(50) NOT NULL,
-    administrador BOOL,
+    administrador BOOL NOT NULL,
     primary key(usuario)
 );
 
@@ -16,7 +16,7 @@ create table if not exists Productos (
 	id int NOT NULL AUTO_INCREMENT,
 	nombre VARCHAR(50) NOT NULL unique,
 	imagen VARCHAR(50),
-    precio int,
+    precio int NOT NULL,
     primary key(id)
 );
 
