@@ -20,7 +20,7 @@ module.exports = (app) => {
             const reponse = await getUser(user)
             res.json(reponse)
         } catch (e) {
-            res.status(400).json({ mensaje: e })
+            res.status(400).json({ mensaje: e.message, token:'' })
         }
 
     })

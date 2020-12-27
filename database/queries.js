@@ -1,6 +1,6 @@
 // Users
 module.exports.newUser = 'INSERT INTO Usuarios (usuario, nombre_completo, correo, telefono, direccion, contrasena, administrador) values (:usuario, :nombreCompleto, :correo, :telefono, :direccion, :contrasena, :administrador)';
-module.exports.user = 'Select usuario, contrasena FROM Usuarios WHERE usuario = :usuario';
+module.exports.savedUser = 'Select usuario, contrasena FROM Usuarios WHERE usuario = :usuario';
 
 // orders
 module.exports.allDeliveries = 'SELECT * FROM Ordenes';
