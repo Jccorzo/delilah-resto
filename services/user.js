@@ -14,7 +14,6 @@ module.exports.createUser = async (user) => {
             administrador: false
         }, jwtClave, {
             algorithm: "HS512",
-            expiresIn: 300 // tiempo de expiracion en segundos
         });
         return { user, mensaje: 'Usuario creado correctamente', token: userToken }
     } catch (e) {
@@ -38,7 +37,6 @@ module.exports.getUser = async (user) => {
                     administrador: false
                 }, jwtClave, {
                     algorithm: "HS512",
-                    expiresIn: 300 // tiempo de expiracion en segundos
                 });
                 return { ...foundUser[0], token: userToken }
             } else {
