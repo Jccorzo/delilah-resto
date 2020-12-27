@@ -1,8 +1,20 @@
-const { validateAdmin } = require('../middlewares/validation');
+const { validateAdmin, validateUser } = require('../middlewares/validation');
 
 module.exports = (app) => {
 
     app.post('/order', (req, res) => {
+
+    })
+
+    app.get('/order/:usuario', validateUser, (req, res) => {
+
+    })
+
+    app.get('/order/:usuario/:id', validateUser, (req, res) => {
+
+    })
+
+    app.get('/order/:id', validateAdmin, (req, res) => {
 
     })
 
@@ -15,15 +27,11 @@ module.exports = (app) => {
         }
     })
 
-    app.get('/order/:id', (req, res) => {
+    app.put('/order', validateAdmin, (req, res) => {
 
     })
 
-    app.put('/order', (req, res) => {
-
-    })
-
-    app.delete('/order', (req, res) => {
+    app.delete('/order', validateAdmin, (req, res) => {
 
     })
 }

@@ -15,7 +15,7 @@ create table if not exists Usuarios (
 create table if not exists Productos (
 	id int NOT NULL AUTO_INCREMENT,
 	nombre VARCHAR(50) NOT NULL unique,
-	imagen VARCHAR(50),
+	imagen TEXT,
     precio int NOT NULL,
     primary key(id)
 );
@@ -39,7 +39,11 @@ create table if not exists ProductosOrdenes (
     unique(numero,id)
 );
 
+#Insertando usuario administrador
 insert into delilah.Usuarios (usuario,nombre_completo,correo,telefono,direccion, contrasena, administrador)
 values ('admin','Administrador','admin@mail.com',111111,'direccion del admin','123456',true);
 
-select * from delilah.Usuarios;
+#Insertando productos
+insert into delilah.Productos (nombre,imagen,precio) values ('Hamburguesa', 'https://cocina-casera.com/wp-content/uploads/2016/11/hamburguesa-queso-receta.jpg', 25000);
+insert into delilah.Productos (nombre,imagen,precio) values ('Pizza de Peperoni', 'https://cdn2.cocinadelirante.com/sites/default/files/styles/gallerie/public/images/2017/04/pizzapepperoni0.jpg', 30000);
+insert into delilah.Productos (nombre,imagen,precio) values ('Hot dog Sencillo', 'https://placeralplato.com/files/2015/11/Pan-para-hot-dogs-640x480.jpg?width=1200&enable=upscale', 15000);
