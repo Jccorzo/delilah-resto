@@ -34,7 +34,7 @@ create table if not exists Ordenes (
 create table if not exists ProductosOrdenes (
 	numero int,
     id int,
-    foreign key(numero) references Ordenes(numero),
+    foreign key(numero) references Ordenes(numero) ON DELETE CASCADE,
     foreign key(id) references Productos(id),
     unique(numero,id)
 );

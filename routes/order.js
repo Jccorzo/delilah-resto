@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const jwtClave = "bnkj4nUGY5tyDuyg6guyb76t64hIYVH9";
 const { validateAdmin, validateUser } = require('../middlewares/validation');
-const { createNewOrder, updateOrder } = require('../services/order');
+const { createNewOrder, updateOrder, getAllOrders, removeOrder } = require('../services/order');
 
 module.exports = (app) => {
 
@@ -29,12 +29,12 @@ module.exports = (app) => {
 
     })
 
-    app.get('/order', validateAdmin, (req, res) => {
+    app.get('/order', validateAdmin, async (req, res) => {
         try {
-            res.json({ mensaje: 'ordennn' })
-
+            const response = await getAllOrders()
+            res.json({ data: response })
         } catch (e) {
-            res.status(400).json()
+            res.status(400).json({ mensaje: e.message })
         }
     })
 
@@ -48,7 +48,14 @@ module.exports = (app) => {
         }
     })
 
-    app.delete('/order', validateAdmin, (req, res) => {
-        const orderId = req.params.orderId
+    app.delete('/order', validateAdmin, async (req, res) => {
+        const orderId = req.query.orderId
+        console.log("ORDEEED: ", orderId)
+        try {
+            const response = await removeOrder(orderId)
+            res.json({ mensaje: response })
+        } catch (e) {
+            res.status(400).json({ mensaje: e.message })
+        }
     })
 }

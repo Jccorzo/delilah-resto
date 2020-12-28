@@ -3,12 +3,12 @@ module.exports.newUser = 'INSERT INTO Usuarios (usuario, nombre_completo, correo
 module.exports.savedUser = 'Select usuario, contrasena, administrador FROM Usuarios WHERE usuario = :usuario';
 
 // orders
-module.exports.allDeliveries = 'SELECT * FROM Ordenes';
+module.exports.allOrders = 'SELECT * FROM Ordenes';
 module.exports.orderById = 'SELECT * FROM Ordenes where numero = :numero';
 module.exports.newOrder = 'INSERT INTO Ordenes (estado,hora,descripcion,pago,usuario) values (:estado,:hora,:descripcion,:pago,:usuario)';
 module.exports.newOrderProducts = 'INSERT INTO ProductosOrdenes (numero,id) values (:numero,:id)';
 module.exports.updateOrder = 'UPDATE Ordenes SET estado = :estado WHERE numero = :numero';
-module.exports.deleteOrder = 'DELETE FROM Ordenes SET ¿¿¿¿¿¿¿ deliveries where delivery_id = ?';
+module.exports.deleteOrder = 'DELETE FROM Ordenes WHERE numero = :numero';
 
 // Products
 module.exports.allProducts = 'SELECT * FROM Productos';

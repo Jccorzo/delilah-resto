@@ -1,5 +1,5 @@
-const { insert, update } = require('../database/methods')
-const { deleteOrder, newOrder, newOrderProducts, orderById, updateOrder } = require('../database/queries')
+const { insert, update, get, remove } = require('../database/methods')
+const { deleteOrder, newOrder, newOrderProducts, orderById, updateOrder, allOrders } = require('../database/queries')
 const product = require('../routes/product')
 
 module.exports.createNewOrder = async (order) => {
@@ -25,5 +25,23 @@ module.exports.updateOrder = async (order) => {
     } catch (e) {
         throw new Error('Ocurrió un error actualizando el registro')
     }
+}
 
+module.exports.getAllOrders = async () => {
+    try {
+        const orders = get(allOrders, {})
+        return orders
+    } catch (e) {
+        throw new Error('Ocurrió un error consultando las ordenes')
+    }
+}
+
+module.exports.removeOrder = async (orderId) => {
+    try {
+        await remove(deleteOrder, { numero: orderId })
+        return 'Orden eliminada correctamente'
+    } catch (e) {
+        console.log("ERROR: ", e)
+        throw new Error('Ocurrió un error eliminando la orden')
+    }
 }
