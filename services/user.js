@@ -34,7 +34,7 @@ module.exports.getUser = async (user) => {
                 delete (foundUser[0].contrasena)
                 const userToken = jwt.sign({
                     usuario: user.usuario,
-                    administrador: false
+                    administrador: foundUser[0].administrador
                 }, jwtClave, {
                     algorithm: "HS512",
                 });

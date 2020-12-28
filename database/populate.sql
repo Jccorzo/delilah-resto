@@ -22,10 +22,10 @@ create table if not exists Productos (
 
 create table if not exists Ordenes (
 	numero int NOT NULL AUTO_INCREMENT,
-	estado ENUM('Confirmado', 'En preparación', 'En camino', 'Entregado'),
-    hora int,
+	estado ENUM('Confirmado', 'En preparacion', 'En camino', 'Entregado'),
+    hora BIGINT,
     descripcion VARCHAR(100),
-    pago int,
+    pago BIGINT,
     usuario VARCHAR(50),
     primary key(numero),
     foreign key(usuario) REFERENCES Usuarios(usuario)
@@ -40,8 +40,7 @@ create table if not exists ProductosOrdenes (
 );
 
 #Insertando usuario administrador
-insert into delilah.Usuarios (usuario,nombre_completo,correo,telefono,direccion, contrasena, administrador)
-values ('admin','Administrador','admin@mail.com',111111,'direccion del admin','123456',true);
+insert into delilah.Usuarios (usuario,nombre_completo,correo,telefono,direccion, contrasena, administrador) values ('admin','Administrador','admin@mail.com',111111,'direccion del admin','e10adc3949ba59abbe56e057f20f883e',true);
 
 #Insertando productos
 insert into delilah.Productos (nombre,imagen,precio) values ('Hamburguesa', 'https://cocina-casera.com/wp-content/uploads/2016/11/hamburguesa-queso-receta.jpg', 25000);

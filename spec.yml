@@ -335,14 +335,19 @@ paths:
             schema:
               type: "object"
               properties:
-                date: 
-                  type: "number"
                 products:
                   type: "array"
                   items:
                     type: "object"
-                pago: 
-                  type: "number"
+                    properties:
+                      id:
+                        type: "number"
+                      nombre:
+                        type: "string"
+                      precio:
+                        type: "number"
+                      cantidad:
+                        type: "number"
       responses:
         "201":
           description: "order created"
@@ -370,9 +375,9 @@ paths:
             schema:
               type: "object"
               properties:
-                id:
-                  type: "string"
-                state:
+                numero:
+                  type: "number"
+                estado:
                   type: "string"
       responses:
         "200":

@@ -15,7 +15,7 @@ module.exports = (app) => {
     app.post('/product', validateAdmin, async (req, res) => {
         const product = req.body
         try {
-            res.json({mensaje: 'Producto creado correctamente'})
+            res.json({ mensaje: 'Producto creado correctamente' })
         } catch (e) {
             res.status(400).json({ mensaje: 'Ocurrió un error creando el producto' })
         }
