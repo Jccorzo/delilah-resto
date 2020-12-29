@@ -1,5 +1,5 @@
 const { insert, update, get, remove } = require('../database/methods')
-const { deleteOrder, newOrder, newOrderProducts, updateOrder, allOrders, orderByUser } = require('../database/queries')
+const { deleteOrder, newOrder, newOrderProducts, updateOrder, allOrders, orderByUser, productsByOrder } = require('../database/queries')
 
 module.exports.createNewOrder = async (order) => {
     const hora = Date.now()
@@ -28,9 +28,14 @@ module.exports.updateOrder = async (order) => {
 
 module.exports.getAllOrders = async () => {
     try {
-        const orders = get(allOrders, {})
-        return orders
+        const orders = await get(allOrders, {})
+        const ordersWithProducts = await Promise.all(orders.map(async order => {
+            const products = await get(productsByOrder, { numero: order.numero })
+            return { ...order, products: products }
+        }))
+        return ordersWithProducts
     } catch (e) {
+        console.log(e)
         throw new Error('Ocurrió un error consultando las ordenes')
     }
 }
@@ -47,7 +52,11 @@ module.exports.removeOrder = async (orderId) => {
 module.exports.getOrderByUser = async (user) => {
     try {
         const orders = await get(orderByUser, { usuario: user })
-        return orders;
+        const ordersWithProducts = await Promise.all(orders.map(async order => {
+            const products = await get(productsByOrder, { numero: order.numero })
+            return { ...order, products: products }
+        }))
+        return ordersWithProducts
     } catch (e) {
         throw new Error('Ocurrió un error consultando las ordenes')
     }
