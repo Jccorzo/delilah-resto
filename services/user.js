@@ -2,7 +2,7 @@ const { insert, get } = require('../database/methods');
 const { newUser, savedUser } = require('../database/queries');
 const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
-const jwtClave = "bnkj4nUGY5tyDuyg6guyb76t64hIYVH9";
+const config = require('../config');
 
 module.exports.createUser = async (user) => {
     try {
@@ -12,7 +12,7 @@ module.exports.createUser = async (user) => {
         const userToken = jwt.sign({
             usuario: user.usuario,
             administrador: false
-        }, jwtClave, {
+        }, config.jwt, {
             algorithm: "HS512",
         });
         return { user, mensaje: 'Usuario creado correctamente', token: userToken }
@@ -35,7 +35,7 @@ module.exports.getUser = async (user) => {
                 const userToken = jwt.sign({
                     usuario: user.usuario,
                     administrador: foundUser[0].administrador
-                }, jwtClave, {
+                }, config.jwt, {
                     algorithm: "HS512",
                 });
                 return { ...foundUser[0], token: userToken }

@@ -1,4 +1,4 @@
-const { getAllProducts, createNewProduct } = require('../services/product');
+const { getAllProducts, createNewProduct, deleteProduct, updateProduct } = require('../services/product');
 const { validateAdmin } = require('../middlewares/validation');
 
 module.exports = (app) => {
@@ -6,7 +6,7 @@ module.exports = (app) => {
     app.get('/product', async (_, res) => {
         try {
             const products = await getAllProducts()
-            res.json({ data: products })
+            res.json({ products })
         } catch (e) {
             res.status(400).json({ mensaje: e.message })
         }
@@ -15,21 +15,30 @@ module.exports = (app) => {
     app.post('/product', validateAdmin, async (req, res) => {
         const product = req.body
         try {
-            res.json({ mensaje: 'Producto creado correctamente' })
+            const respuesta = await createNewProduct(product)
+            res.json({ mensaje: respuesta })
         } catch (e) {
-            res.status(400).json({ mensaje: 'Ocurrió un error creando el producto' })
+            res.status(400).json({ mensaje: e.message })
         }
     })
 
-    app.get('/product/:id', validateAdmin, (req, res) => {
-
+    app.put('/product', validateAdmin, async (req, res) => {
+        const product = req.body
+        try {
+            const respuesta = await updateProduct(product)
+            res.json({ mensaje: respuesta })
+        } catch (e) {
+            res.status(400).json({ mensaje: e.message })
+        }
     })
 
-    app.put('/product', validateAdmin, (req, res) => {
-
-    })
-
-    app.delete('/product', validateAdmin, (req, res) => {
-
+    app.delete('/product', validateAdmin, async (req, res) => {
+        const productId = req.query.productId;
+        try {
+            const respuesta = await deleteProduct(productId)
+            res.json({ mensaje: respuesta })
+        } catch (e) {
+            res.status(400).json({ mensaje: e.message })
+        }
     })
 }

@@ -1,18 +1,17 @@
 // Users
 module.exports.newUser = 'INSERT INTO Usuarios (usuario, nombre_completo, correo, telefono, direccion, contrasena, administrador) values (:usuario, :nombreCompleto, :correo, :telefono, :direccion, :contrasena, :administrador)';
-module.exports.savedUser = 'Select usuario, contrasena, administrador FROM Usuarios WHERE usuario = :usuario';
+module.exports.savedUser = 'Select * FROM Usuarios WHERE usuario = :usuario';
 
 // orders
 module.exports.allOrders = 'SELECT * FROM Ordenes';
-module.exports.orderById = 'SELECT * FROM Ordenes where numero = :numero';
+module.exports.orderByUser = 'SELECT * FROM Ordenes WHERE usuario = :usuario';
 module.exports.newOrder = 'INSERT INTO Ordenes (estado,hora,descripcion,pago,usuario) values (:estado,:hora,:descripcion,:pago,:usuario)';
-module.exports.newOrderProducts = 'INSERT INTO ProductosOrdenes (numero,id) values (:numero,:id)';
+module.exports.newOrderProducts = 'INSERT INTO ProductosOrdenes (numero,id,cantidad) values (:numero,:id,:cantidad)';
 module.exports.updateOrder = 'UPDATE Ordenes SET estado = :estado WHERE numero = :numero';
 module.exports.deleteOrder = 'DELETE FROM Ordenes WHERE numero = :numero';
 
 // Products
 module.exports.allProducts = 'SELECT * FROM Productos';
-module.exports.productById = 'SELECT * FROM Productos WHERE id = :id';
 module.exports.newProduct = 'INSERT INTO Productos (nombre, precio, imagen) values (:nombre, :precio, :imagen)';
 module.exports.updateProduct = 'UPDATE Productos SET nombre = :nombre, precio = :precio, imagen = :imagen WHERE id = :id';
 module.exports.deleteProduct = 'DELETE FROM Productos WHERE id = :id';

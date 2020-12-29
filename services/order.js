@@ -1,6 +1,5 @@
 const { insert, update, get, remove } = require('../database/methods')
-const { deleteOrder, newOrder, newOrderProducts, orderById, updateOrder, allOrders } = require('../database/queries')
-const product = require('../routes/product')
+const { deleteOrder, newOrder, newOrderProducts, updateOrder, allOrders, orderByUser } = require('../database/queries')
 
 module.exports.createNewOrder = async (order) => {
     const hora = Date.now()
@@ -10,7 +9,7 @@ module.exports.createNewOrder = async (order) => {
     try {
         const savedOrder = await insert(newOrder, orderToSave)
         await Promise.all(order.products.map(async (product) => {
-            await insert(newOrderProducts, { id: product.id, numero: savedOrder[0] })
+            await insert(newOrderProducts, { id: product.id, numero: savedOrder[0], cantidad: product.cantidad })
         }))
         return 'Orden creada correctamente'
     } catch (e) {
@@ -41,7 +40,15 @@ module.exports.removeOrder = async (orderId) => {
         await remove(deleteOrder, { numero: orderId })
         return 'Orden eliminada correctamente'
     } catch (e) {
-        console.log("ERROR: ", e)
         throw new Error('Ocurrió un error eliminando la orden')
+    }
+}
+
+module.exports.getOrderByUser = async (user) => {
+    try {
+        const orders = await get(orderByUser, { usuario: user })
+        return orders;
+    } catch (e) {
+        throw new Error('Ocurrió un error consultando las ordenes')
     }
 }

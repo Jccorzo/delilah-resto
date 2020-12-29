@@ -5,6 +5,12 @@ info:
   version: "1.0.0"
 servers: 
   - url: "http://localhost:3000"
+components:
+  securitySchemes:
+    bearerAuth:         
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
 paths:
   /user/signUp: 
       post:
@@ -97,21 +103,18 @@ paths:
                 properties:
                   token:
                     type: "string"
-                  mensaje:
+                  usuario:
                     type: "string"
-                  data:
-                    type: "object"
-                    properties: 
-                      usuario:
-                        type: "string"
-                      nombreCompleto:
-                        type: "string"
-                      correo:
-                        type: "string"
-                      telefono: 
-                        type: "string"
-                      direccion: 
-                        type: "string"
+                  nombre_completo:
+                    type: "string"
+                  correo:
+                    type: "string"
+                  telefono: 
+                    type: "string"
+                  direccion: 
+                    type: "string"
+                  administrador:
+                    type: "boolean"
         "400":
           description: "username or password incorrect"
           content:
@@ -123,19 +126,10 @@ paths:
                     type: "string"
                   mensaje:
                     type: "string"
-        "default":
-            description: "Default error, some error happened"
-            content:
-              application/json:
-                schema:
-                  type: "object"
-                  properties:
-                    token: 
-                      type: "string"
-                    mensaje:
-                      type: "string"
   /product:
     get:
+      security:
+        - bearerAuth: []
       summary: "get all products"
       responses:
         "200":
@@ -145,10 +139,19 @@ paths:
               schema:
                 type: "object"
                 properties: 
-                  data:
+                  productos:
                     type: "array"
                     items: 
                       type: "object"
+                      properties:
+                        id:
+                          type: "number"
+                        nombre:
+                          type: "string"
+                        precio:
+                          type: "number"
+                        imagen: 
+                          type: "string"
         "401":
           description: "authentication errors"
           content:
@@ -158,7 +161,18 @@ paths:
                 properties: 
                   mensaje:
                     type: "string"
+        "400":
+          description: "some error happend"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties: 
+                  mensaje:
+                    type: "string"
     post:
+      security:
+        - bearerAuth: []
       summary: "Create Product"
       requestBody: 
         content:
@@ -183,7 +197,7 @@ paths:
                   mensaje: 
                     type: "string"
         "400":
-          description: "product alredy exist"
+          description: "some error happend"
           content:
             application/json:
               schema:
@@ -201,6 +215,8 @@ paths:
                   mensaje:
                     type: "string"
     put: 
+      security:
+        - bearerAuth: []
       summary: "update product"
       requestBody:
         content:
@@ -208,6 +224,8 @@ paths:
             schema:
               type: "object"
               properties:
+                id:
+                  type: "number"
                 nombre:
                   type: "string"
                 precio:
@@ -224,8 +242,8 @@ paths:
                 properties:
                   mensaje: 
                     type: "string"
-        "401":
-          description: "authentication errors"
+        "400":
+          description: "some error happend"
           content:
             application/json:
               schema:
@@ -233,67 +251,44 @@ paths:
                 properties:
                   mensaje:
                     type: "string"
-        "default":
-          description: "Default error, some error happened"
-          content:
-            application/json:
-              schema:
-                type: "object"
-                properties:
-                  mensaje:
-                    type: "string"
-  /product/{nombre}:
-    get:
-      summary: "get specific product"
-      parameters:
-        - name: nombre
-          in: path
-          description: ID of pet to fetch
-          required: true
-          schema:
-            type: "string"
-      responses:
-        "200":
-          description: "all products"
-          content:
-            application/json:
-              schema:
-                type: "object"
-                properties: 
-                  name: 
-                    type: "string"
-                  price:
-                    type: "number"
         "401":
           description: "authentication errors"
           content:
             application/json:
               schema:
                 type: "object"
-                properties: 
+                properties:
                   mensaje:
                     type: "string"
     delete:
+      security:
+        - bearerAuth: []
       summary: "delete specific product"
       parameters:
-        - name: nombre
-          in: path
-          description: ID of pet to fetch
+        - name: productId
+          in: query
           required: true
           schema:
             type: "string"
       responses:
         "200":
-          description: "all products"
+          description: "delete succesfull"
           content:
             application/json:
               schema:
                 type: "object"
                 properties: 
-                  name: 
+                  mensaje:
                     type: "string"
-                  price:
-                    type: "number"
+        "400":
+          description: "some error happend"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  mensaje:
+                    type: "string"
         "401":
           description: "authentication errors"
           content:
@@ -305,6 +300,8 @@ paths:
                     type: "string"
   /order:
     get:
+      security:
+        - bearerAuth: []
       summary: "get all orders"
       responses:
         "200":
@@ -314,10 +311,45 @@ paths:
               schema:
                 type: "object"
                 properties:
-                  data: 
+                  orders:
                     type: "array"
-                    items:
+                    items: 
                       type: "object"
+                      properties:
+                        numero: 
+                          type: "number"
+                        estado:
+                          type: "string"
+                        precio:
+                          type: "string"
+                        descripcion:
+                          type: "string"
+                        pago: 
+                          type: "number"
+                        usuario:
+                          type: "string"
+                        productos:
+                          type: "array"
+                          items: 
+                            type: "object"
+                            properties:
+                              id:
+                                type: "number"
+                              nombre:
+                                type: "string"
+                              precio:
+                                type: "number"
+                              cantidad:
+                                type: "number"
+        "400":
+          description: "some error happend"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  mensaje:
+                    type: "string"
         "401":
           description: "authentication errors"
           content:
@@ -328,6 +360,8 @@ paths:
                   mensaje:
                     type: "string"
     post:
+      security:
+        - bearerAuth: []
       summary: "Create Order"
       requestBody: 
         content:
@@ -368,6 +402,8 @@ paths:
                   mensaje:
                     type: "string"
     put: 
+      security:
+        - bearerAuth: []
       summary: "update order"
       requestBody:
         content:
@@ -407,13 +443,45 @@ paths:
                 properties:
                   mensaje:
                     type: "string"
+    delete:
+      security:
+        - bearerAuth: []
+      summary: "delete specific order"
+      parameters:
+        - name: orderId
+          in: query
+          required: true
+          schema:
+            type: "string"
+      responses:
+        "200":
+          description: "delete succesfull"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties: 
+                  name: 
+                    type: "string"
+                  price:
+                    type: "number"
+        "401":
+          description: "authentication errors"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties: 
+                  mensaje:
+                    type: "string"
   /order/{usuario}:
     get:
+      security:
+        - bearerAuth: []
       summary: "get specific product"
       parameters:
         - name: usuario
           in: path
-          description: ID of pet to fetch
           required: true
           schema:
             type: "string"
@@ -424,11 +492,47 @@ paths:
             application/json:
               schema:
                 type: "object"
+                properties:
+                  orders:
+                    type: "array"
+                    items: 
+                      type: "object"
+                      properties:
+                        numero: 
+                          type: "number"
+                        estado:
+                          type: "string"
+                        precio:
+                          type: "string"
+                        descripcion:
+                          type: "string"
+                        pago: 
+                          type: "number"
+                        usuario:
+                          type: "string"
+                        productos:
+                          type: "array"
+                          items: 
+                            type: "object"
+                            properties:
+                              id:
+                                type: "number"
+                              nombre:
+                                type: "string"
+                              precio:
+                                type: "number"
+                              cantidad:
+                                type: "number"
+                            
+        "400":
+          description: "some error happend"
+          content:
+            application/json:
+              schema:
+                type: "object"
                 properties: 
-                  name: 
+                  mensaje:
                     type: "string"
-                  price:
-                    type: "number"
         "401":
           description: "authentication errors"
           content:

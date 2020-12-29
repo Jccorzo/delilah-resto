@@ -1,6 +1,9 @@
 const SeqLibrary = require("sequelize");
-const path = "mysql://root:secret@localhost:3306/delilah";
-const sequelize = new SeqLibrary(path);
+const config = require('../config');
+const sequelize = new SeqLibrary(config.DB,config.USER,config.PASSWORD, {
+    host: config.HOST,
+    dialect: config.dialect
+});
 
 sequelize.authenticate()
     .then(() => {

@@ -1,13 +1,13 @@
 const jwt = require('jsonwebtoken');
-const jwtClave = "bnkj4nUGY5tyDuyg6guyb76t64hIYVH9";
+const config = require('../config');
 const { validateAdmin, validateUser } = require('../middlewares/validation');
-const { createNewOrder, updateOrder, getAllOrders, removeOrder } = require('../services/order');
+const { createNewOrder, updateOrder, getAllOrders, removeOrder, getOrderByUser } = require('../services/order');
 
 module.exports = (app) => {
 
     app.post('/order', async (req, res) => {
         const token = req.headers.authorization.split(' ')[1];
-        const usuario = jwt.decode(token, jwtClave).usuario
+        const usuario = jwt.decode(token, config.jwt).usuario
         const order = req.body;
         try {
             const response = await createNewOrder({ ...order, usuario })
@@ -17,22 +17,20 @@ module.exports = (app) => {
         }
     })
 
-    app.get('/order/:usuario', validateUser, (req, res) => {
-
-    })
-
-    app.get('/order/:usuario/:id', validateUser, (req, res) => {
-
-    })
-
-    app.get('/order/:id', validateAdmin, (req, res) => {
-
-    })
-
-    app.get('/order', validateAdmin, async (req, res) => {
+    app.get('/order/:usuario', validateUser, async (req, res) => {
+        const user = req.params.usuario;
         try {
-            const response = await getAllOrders()
-            res.json({ data: response })
+            const orders = await getOrderByUser(user)
+            res.json({ orders: orders })
+        } catch (e) {
+            res.status(400).json({ mensaje: e.message })
+        }
+    })
+
+    app.get('/order', validateAdmin, async (_, res) => {
+        try {
+            const orders = await getAllOrders()
+            res.json({ orders })
         } catch (e) {
             res.status(400).json({ mensaje: e.message })
         }
@@ -50,7 +48,6 @@ module.exports = (app) => {
 
     app.delete('/order', validateAdmin, async (req, res) => {
         const orderId = req.query.orderId
-        console.log("ORDEEED: ", orderId)
         try {
             const response = await removeOrder(orderId)
             res.json({ mensaje: response })
