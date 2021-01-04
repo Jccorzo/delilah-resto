@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const config = require('../config');
 
 module.exports.validateLogin = (req, res, next) => {
-    if (req.baseUrl === '/login' || req.baseUrl === '/signUp') return next()
+    if (req.baseUrl === '/user/login' || req.baseUrl === '/user/signUp') return next()
     try {
         const token = req.headers.authorization.split(' ')[1];
         const verificarToken = jwt.verify(token, config.jwt)

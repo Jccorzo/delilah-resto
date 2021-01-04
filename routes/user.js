@@ -4,7 +4,7 @@ const {
 } = require('../services/user');
 
 module.exports = (app) => {
-    app.post('/signUp', async (req, res) => {
+    app.post('/user/signUp', async (req, res) => {
         const user = req.body
         try {
             const response = await createUser(user)
@@ -14,7 +14,7 @@ module.exports = (app) => {
         }
     })
 
-    app.post('/login', async (req, res) => {
+    app.post('/user/login', async (req, res) => {
         const user = req.body;
         try {
             const reponse = await getUser(user)
