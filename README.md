@@ -4,7 +4,7 @@
     Este proyecto fue construido para ejecutarse de dos formas diferentes
     Además, poseé un usuario admin para logearse de la siguiente manera:
     Usuario: admin
-    contraseña: 123456
+    contraseña: "123456"
     
 ### 1. Mediante docker compose
     Después de clonar el proyecto, en la raíz del proyecto ejecutar docker-compose up. Esto levantara la base de datos, la cual contendrá la información inicial para funcionar (3 productos creados y un usuario "admin")
